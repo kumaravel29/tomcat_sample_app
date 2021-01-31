@@ -11,7 +11,7 @@ pipeline {
 	
     stage('Build the Docker file') {
       steps {
-        app = docker.build(image, "--no-cache .")
+        docker.build(image, "--no-cache .")
         echo "Docker Images"
         sh 'docker images'
       }
