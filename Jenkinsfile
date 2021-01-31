@@ -5,7 +5,7 @@ pipeline {
   stages {
     stage('Clone repository') {
       steps {
-        git branch: branch, url: 'https://github.com/kumaravel29/tomcat_smaple_app'
+        git branch: main, url: 'https://github.com/kumaravel29/tomcat_smaple_app'
       }
     }
 	
