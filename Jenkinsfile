@@ -4,15 +4,17 @@ pipeline {
   
   stages {
     stage('Clone repository') {
-      git branch: branch, url: 'https://github.com/kumaravel29/tomcat_smaple_app'
+      steps {
+        git branch: branch, url: 'https://github.com/kumaravel29/tomcat_smaple_app'
+      }
     }
 	
     stage('Build the Docker file') {
-      app = docker.build(image, "--no-cache .")
-    }
-	
-    stage('Build the Docker file') {
-      sh 'docker images'
+      steps {
+        app = docker.build(image, "--no-cache .")
+        echo "Docker Images"
+        sh 'docker images'
+      }
     }
   }
 }
