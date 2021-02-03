@@ -15,7 +15,8 @@ node {
   }
 
   stage('Push image') {
-    /* Finally, we'll push the image with two tags: */
+    /* Finally, we'll push the image with two tags: build_number and latest
+    The docker-hub-credentials are added to the Global credentials in the Jenkins*/
     docker.withRegistry('', 'docker-hub-credentials') {
       app.push("${env.BUILD_NUMBER}")
       app.push("latest")
