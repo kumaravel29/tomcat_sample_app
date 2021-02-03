@@ -16,7 +16,7 @@ node {
 
   stage('Push image') {
     /* Finally, we'll push the image with two tags: */
-    docker.withRegistry('https://hub.docker.com', 'docker-hub-credentials') {
+    docker.withRegistry('', 'docker-hub-credentials') {
       app.push("${env.BUILD_NUMBER}")
       app.push("latest")
     }
