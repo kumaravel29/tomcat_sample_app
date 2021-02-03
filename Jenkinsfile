@@ -1,27 +1,24 @@
 node {
-    def app
+  def app
+  def app_image='tomcat/sample'
+  
+  stage('Allowing docker permissions') {
+    sh 'sudo chmod 666 /var/run/docker.sock'	
+  }
+  stage('Clone repository') {
+    checkout scm
+  }
 
-    stage('Clone repository') {
-        /* Let's make sure we have the repository cloned to our workspace */
+  stage('Build image') {
+    /* This builds the image from the Dockerfile */
+    app = docker.build(app_image, "--no-cache .")
+  }
 
-        checkout scm
+  stage('Push image') {
+    /* Finally, we'll push the image with two tags: */
+    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+      app.push("${env.BUILD_NUMBER}")
+      app.push("latest")
     }
-
-    stage('Build image') {
-        /* This builds the actual image; synonymous to
-         * docker build on the command line */
-
-        app = docker.build("tomcat/sample")
-    }
-
-    stage('Push image') {
-        /* Finally, we'll push the image with two tags:
-         * First, the incremental build number from Jenkins
-         * Second, the 'latest' tag.
-         * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
-    }
+  }
 }
