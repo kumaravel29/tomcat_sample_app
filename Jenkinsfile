@@ -1,6 +1,6 @@
 node {
   def app
-  def app_image='tomcat/sample'
+  def app_image='kumaravel29/tomcat/sample'
   
   stage('Allowing docker permissions') {
     sh 'sudo chmod 666 /var/run/docker.sock'	
